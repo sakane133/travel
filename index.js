@@ -13,8 +13,8 @@ function getTravelersFlightInfo() {
 
   let returnValue = airlines.then(airlineValue => {
     let tripReturn = trips.then(tripValue => {
-      let airObj = {}
       airlineValue.airlines.forEach(line => {
+        let airObj = {}
         airObj[line.code] = line.name
       })
       let profileReturn = profiles.then(profileValue => {
