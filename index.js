@@ -18,12 +18,10 @@ function getTravelersFlightInfo() {
         airObj[line.code] = line.name
       })
       let profileReturn = profiles.then(profileValue => {
-
-        let travelerProfile = profileValue.profiles
-        let tripInfo = tripValue.trip.flights
-
-        travelerProfile.forEach(value => {
+        profileValue.profiles.forEach(value => {
+          let tripInfo = tripValue.trip.flights
           let newArray = []
+          let newHash = {}
           tripInfo.forEach(part => {
             if (part.travelerIds.includes(value.personId)) {
               let flights = { legs: part.legs }
@@ -32,9 +30,10 @@ function getTravelersFlightInfo() {
               // will need another if statement for the airline rewards 
             }
           })
-          let newHash = {
-            id: value.personId, name: value.name, flights: newArray
-          }
+          newHash["id"] = value.personId
+          newHash["name"] = value.name
+          newHash["flights"] = newArray
+
           travelers.push(newHash)
         })
         return JSON.stringify(travelers)
