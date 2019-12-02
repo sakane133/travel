@@ -19,20 +19,19 @@ function getTravelersFlightInfo() {
       })
       let profileReturn = profiles.then(profileValue => {
         profileValue.profiles.forEach(value => {
-          let tripInfo = tripValue.trip.flights
-          let newArray = []
+          let flightArray = []
           let newHash = {}
-          tripInfo.forEach(part => {
+          tripValue.trip.flights.forEach(part => {
             if (part.travelerIds.includes(value.personId)) {
               let flights = { legs: part.legs }
-              newArray.push(flights)
+              flightArray.push(flights)
               // Flight array also needs to include airline name and rewards info if applicable
               // will need another if statement for the airline rewards 
             }
           })
           newHash["id"] = value.personId
           newHash["name"] = value.name
-          newHash["flights"] = newArray
+          newHash["flights"] = flightArray
 
           travelers.push(newHash)
         })
