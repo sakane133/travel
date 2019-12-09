@@ -12,24 +12,28 @@ function getTravelersFlightInfo() {
 
   let travelers = []
 
+  let airObj = {}
   let returnValue = airlines.then(airlineValue => {
     let tripReturn = trips.then(tripValue => {
       airlineValue.airlines.forEach(line => {
         // creating an object with airline abbreviations and names
-        let airObj = {}
         airObj[line.code] = line.name
       })
       let profileReturn = profiles.then(profileValue => {
         profileValue.profiles.forEach(value => {
           let flightArray = []
           tripValue.trip.flights.forEach(part => {
+            // adding airling name 
+            part.legs.forEach(name => {
+              name.airlineName = airObj[name.airlineCode]
+            })
+            // creating the fligt array for each traveler
+            // Flight array also needs to include airline name and rewards info if applicable
             if (part.travelerIds.includes(value.personId)) {
-              // creating the fligt array for each traveler
               flightArray.push({ legs: part.legs })
-              // Flight array also needs to include airline name and rewards info if applicable
-              // will need another if statement for the airline rewards 
             }
           })
+
           // creating the hash for each traveler to include Id, Name, and Flight info
           let newHash = {}
           newHash["id"] = value.personId
